@@ -88,12 +88,12 @@ spec:
           optional: true
         name: config
       # Edit the volume to match the existing pv in the cluster
-volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "1Gi"
+  volumeClaimTemplates:
+      - metadata:
+          name: data
+        spec:
+          accessModes:
+            - "ReadWriteOnce"
+          resources:
+            requests:
+              storage: "1Gi"
