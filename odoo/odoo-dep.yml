@@ -40,18 +40,18 @@ spec:
       containers:
       - env:
         - name: HOST
-          value: pg-ha-test
+          value: db-basic
         - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: pg-ha-test-secrets
-                  key: postgresql-password
+          value: odoo
         - name: USER
-          value: postgres
+          value: odoo
         image: odoo:13
         imagePullPolicy: IfNotPresent
         name: od-ha-test
         resources:
+          limits:
+            cpu: "1"
+            memory: 6000Mi
           requests:
             cpu: 100m
             memory: 512Mi
@@ -91,3 +91,4 @@ spec:
       - name: vol-7xe3r
         persistentVolumeClaim:
           claimName: pvc-96a539dd-e49b-4688-9981-05a66902856f
+
