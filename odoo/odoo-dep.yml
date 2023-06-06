@@ -13,7 +13,8 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
+      app.kubernetes.io/instance: od-ha-test
+      app.kubernetes.io/name: odoo
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -22,72 +23,112 @@ spec:
   template:
     metadata:
       annotations:
-        cattle.io/timestamp: "2021-11-09T18:59:34Z"
-        field.cattle.io/ports: '[[]]'
+        cattle.io/timestamp: "2023-05-25T11:09:59Z"
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
+        app.kubernetes.io/instance: od-ha-test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: odoo
+        helm.sh/chart: odoo-23.2.4
     spec:
       affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - files
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/instance: od-ha-test
+                  app.kubernetes.io/name: odoo
+              topologyKey: kubernetes.io/hostname
+            weight: 1
       containers:
       - env:
-        - name: HOST
+        - name: BITNAMI_DEBUG
+          value: "false"
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "no"
+        - name: ODOO_DATABASE_HOST
           value: pg-ha-test
-        - name: PASSWORD
+        - name: ODOO_DATABASE_PORT_NUMBER
+          value: "5432"
+        - name: ODOO_DATABASE_NAME
           value: odoo
-        - name: USER
+        - name: ODOO_DATABASE_USER
           value: odoo
-        image: odoo:13
+        - name: ODOO_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: pg-ha-test-secrets
+              name: postgresql-password
+        - name: ODOO_EMAIL
+          value: eieicyl@gmail.com
+        - name: ODOO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: pg-ha-test-secrets
+              name: postgresql-password
+        - name: ODOO_SKIP_BOOTSTRAP
+          value: "no"
+        - name: ODOO_LOAD_DEMO_DATA
+          value: "no"
+        - name: ODOO_SMTP_HOST
+          value: relay.mailbaby.net
+        - name: ODOO_SMTP_PORT_NUMBER
+          value: "25"
+        - name: ODOO_SMTP_USER
+          value: mb16635
+        - name: ODOO_SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: smtp-password
+              name: od-ha-test
+        image: docker.io/bitnami/odoo:16.0.20230515-debian-11-r3
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /web/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 600
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 5
         name: od-ha-test
+        ports:
+        - containerPort: 8069
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /web/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
         resources:
           limits:
-            cpu: "1"
-            memory: 6000Mi
+            cpu: 800m
+            memory: 5Gi
           requests:
-            cpu: 100m
+            cpu: 300m
             memory: 512Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities: {}
-          privileged: false
-          readOnlyRootFilesystem: false
-          runAsNonRoot: false
-        stdin: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-        tty: true
-        ports:
-            - containerPort: 8069
-              name: od-ha-test
-              protocol: TCP
         volumeMounts:
-        # Edit the volume to match the existing mountPaths in the cluster
-        - mountPath: /etc/odoo
-          name: config
-        - mountPath: /var/lib/odoo
-          name: data
-          subPath: odoo16
+        - mountPath: /bitnami/odoo
+          name: odoo-data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
+      serviceAccount: od-ha-test
+      serviceAccountName: od-ha-test
       terminationGracePeriodSeconds: 30
       volumes:
-      - configMap:
-          defaultMode: 509
-          name: odoo.conf
-          optional: true
-        name: config
-      # Edit the volume to match the existing pv in the cluster
-      - name: data
+      - name: odoo-data
         persistentVolumeClaim:
           claimName: harvestpei-odoo
