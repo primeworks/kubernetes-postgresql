@@ -5,7 +5,7 @@ metadata:
     app: odoo-ha-test
     tier: frontend
     cattle.io/creator: norman
-    workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
+    workload.user.cattle.io/workloadselector: deployment-default-odoo-ha-test
   name: odoo-ha-test
 spec:
   progressDeadlineSeconds: 600
@@ -13,7 +13,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
+      workload.user.cattle.io/workloadselector: deployment-default-odoo-ha-test
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -26,7 +26,7 @@ spec:
         field.cattle.io/ports: '[[]]'
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
+        workload.user.cattle.io/workloadselector: deployment-default-odoo-ha-test
     spec:
       affinity:
         nodeAffinity:
@@ -50,7 +50,7 @@ spec:
           value: postgres
         image: odoo:13
         imagePullPolicy: IfNotPresent
-        name: odoo-hhpei
+        name: odoo-ha-test
         resources:
           limits:
             cpu: "1"
