@@ -31,16 +31,6 @@ spec:
         app.kubernetes.io/name: odoo
         helm.sh/chart: odoo-23.2.4
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/instance: od-ha-test
-                  app.kubernetes.io/name: odoo
-              topologyKey: kubernetes.io/hostname
-            weight: 1
       containers:
       - env:
         - name: BITNAMI_DEBUG
