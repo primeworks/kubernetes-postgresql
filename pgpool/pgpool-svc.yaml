@@ -6,7 +6,7 @@ spec:
   type: ClusterIP
   sessionAffinity: None
   ports:
-    - name: postgres-ha-test
+    - name: postgres-ht
       port: 5432
       targetPort: postgresql
       protocol: TCP

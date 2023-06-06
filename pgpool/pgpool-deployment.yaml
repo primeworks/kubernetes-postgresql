@@ -63,7 +63,7 @@ spec:
             - name: PGPOOL_ENABLE_TLS
               value: "no"
           ports:
-            - name: postgres-ha-test
+            - name: postgres-ht
               containerPort: 5432
               protocol: TCP
           livenessProbe:
