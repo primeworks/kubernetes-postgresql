@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: odoo-ha-test
+  name: od-ha-test
 spec:
   selector:
-    workload.user.cattle.io/workloadselector: deployment-default-odoo-ha-test
+    workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
   ports:
     - protocol: TCP
-      targetPort: odoo-ha-test
+      targetPort: od-ha-test
       port: 8069
-      name: odoo-ha-test
+      name: od-ha-test
