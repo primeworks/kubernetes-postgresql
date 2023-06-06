@@ -74,7 +74,7 @@ spec:
         - mountPath: /etc/odoo
           name: config
         - mountPath: /var/lib/odoo
-          name: data-od
+          name: data
           subPath: odoo16
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -88,12 +88,6 @@ spec:
           optional: true
         name: config
       # Edit the volume to match the existing pv in the cluster
-  volumeClaimTemplates:
-      - metadata:
-          name: data-od
-        spec:
-          accessModes:
-            - "ReadWriteOnce"
-          resources:
-            requests:
-              storage: "1Gi"
+      - name: data
+        persistentVolumeClaim:
+          claimName: od-ha-test
