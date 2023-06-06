@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: pg-ha-test-sts
+  name: pg-ha-test
 spec:
   serviceName: pg-ha-test-headless-svc
   replicas: 3
