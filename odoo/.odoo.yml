@@ -40,11 +40,11 @@ spec:
       containers:
       - env:
         - name: HOST
-          value: postgres-ha-test
+          value: pg-ha-test
         - name: PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-ha-test-secrets
+                  name: pg-ha-test-secrets
                   key: postgresql-password
         - name: USER
           value: postgres
