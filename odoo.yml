@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: odoo-hhpei
+    app: odoo-postgres
     tier: frontend
     cattle.io/creator: norman
     workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
-  name: odoo-hhpei
+  name: odoo-postgres
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -70,7 +70,7 @@ spec:
         tty: true
         ports:
             - containerPort: 8069
-              name: odoo-hhpei
+              name: odoo-postgres
               protocol: TCP
         volumeMounts:
         # Edit the volume to match the existing mountPaths in the cluster
