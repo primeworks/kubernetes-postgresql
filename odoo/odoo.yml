@@ -52,9 +52,6 @@ spec:
         imagePullPolicy: IfNotPresent
         name: od-ha-test
         resources:
-          limits:
-            cpu: "1"
-            memory: 6000Mi
           requests:
             cpu: 100m
             memory: 512Mi
