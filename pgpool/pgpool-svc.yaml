@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pgpool-svc
+  name: pgpool-prem-svc
 spec:
   type: ClusterIP
   sessionAffinity: None
   ports:
-    - name: postgresql
+    - name: postgresql-prem
       port: 5432
-      targetPort: postgresql
+      targetPort: postgresql-prem
       protocol: TCP
       nodePort: null
   selector:

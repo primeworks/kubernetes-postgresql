@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-configmap
+  name: postgres-prem-configmap
 data:
   pre-stop.sh: |-
     #!/bin/bash

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pgpool-deployment
+  name: pgpool-prem-deployment
 spec:
   replicas: 1
   selector:
@@ -15,7 +15,7 @@ spec:
       securityContext:
         fsGroup: 1001
       containers:
-        - name: pgpool
+        - name: pgpool-prem
           image: docker.io/bitnami/pgpool:4.2.3-debian-10-r38
           imagePullPolicy: "IfNotPresent"
           securityContext:
@@ -63,7 +63,7 @@ spec:
             - name: PGPOOL_ENABLE_TLS
               value: "no"
           ports:
-            - name: postgresql
+            - name: postgresql-prem
               containerPort: 5432
               protocol: TCP
           livenessProbe:

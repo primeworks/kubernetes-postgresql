@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-sts
+  name: postgres-prem
 spec:
-  serviceName: postgres-headless-svc
+  serviceName: postgres-prem-headless-svc
   replicas: 3
   selector:
     matchLabels:
-      app: postgres
+      app: postgres-prem
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-prem
     spec:
       securityContext:
         fsGroup: 1001
       containers:
-        - name: postgresql
+        - name: postgresql-prem
           lifecycle:
             preStop:
               exec:
                 command:
                   - /pre-stop.sh
-          image: docker.io/bitnami/postgresql-repmgr:11.12.0-debian-10-r44
+          image: docker.io/bitnami/postgresql-repmgr:12.15.0-debian-11-r8
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1001
@@ -74,7 +74,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: REPMGR_PARTNER_NODES
-              value: postgres-sts-0.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-1.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-2.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local
+              value: postgres-prem-sts-0.postgres-prem-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-prem-sts-1.postgres-prem-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-2.postgres-prem-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local
             - name: REPMGR_PRIMARY_HOST
               value: "postgres-sts-0.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
             - name: REPMGR_NODE_NAME
@@ -99,7 +99,7 @@ spec:
             - name: REPMGR_DATABASE
               value: "repmgr"
           ports:
-            - name: postgresql
+            - name: postgresql-prem
               containerPort: 5432
               protocol: TCP
           livenessProbe:
@@ -125,22 +125,18 @@ spec:
             successThreshold: 1
             failureThreshold: 6
           volumeMounts:
-            - name: data
+            - name: vol-ytjxx
+              subPath: database16
               mountPath: /bitnami/postgresql
             - name: hooks-scripts
               mountPath: /pre-stop.sh
               subPath: pre-stop.sh
       volumes:
+        - name: vol-ytjxx
+        persistentVolumeClaim:
+          claimName: hhpei-odoo
         - name: hooks-scripts
           configMap:
             name: postgres-configmap
             defaultMode: 0755
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "1Gi"
+  
