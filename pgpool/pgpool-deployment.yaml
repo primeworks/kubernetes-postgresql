@@ -48,7 +48,7 @@ spec:
             - name: PGPOOL_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pgpool-secrets
+                  name: pgpool-secrets-ha-test
                   key: admin-password
             - name: PGPOOL_ENABLE_LOAD_BALANCING
               value: "yes"
