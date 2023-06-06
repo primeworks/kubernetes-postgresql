@@ -99,7 +99,7 @@ spec:
             - name: REPMGR_DATABASE
               value: "repmgr"
           ports:
-            - name: postgres-ha-test
+            - name: postgres-ht
               containerPort: 5432
               protocol: TCP
           livenessProbe:
