@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-sts
+  name: postgres-ha-test-sts
 spec:
-  serviceName: postgres-headless-svc
+  serviceName: postgres-ha-test-headless-svc
   replicas: 3
   selector:
     matchLabels:
@@ -16,7 +16,7 @@ spec:
       securityContext:
         fsGroup: 1001
       containers:
-        - name: postgresql
+        - name: postgres-ha-test
           lifecycle:
             preStop:
               exec:
@@ -40,7 +40,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
+                  name: postgres-ha-test-secrets
                   key: postgresql-password
             - name: POSTGRES_DB
               value: "postgres"
@@ -74,13 +74,13 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: REPMGR_PARTNER_NODES
-              value: postgres-sts-0.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-1.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-sts-2.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local
+              value: postgres-ha-test-0.postgres-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-ha-test-1.postgres-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-ha-test-2.postgres-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local
             - name: REPMGR_PRIMARY_HOST
-              value: "postgres-sts-0.postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+              value: "postgres-ha-test-0.postgres-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
             - name: REPMGR_NODE_NAME
               value: "$(MY_POD_NAME)"
             - name: REPMGR_NODE_NETWORK_NAME
-              value: "$(MY_POD_NAME).postgres-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+              value: "$(MY_POD_NAME).postgres-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
             - name: REPMGR_LOG_LEVEL
               value: "NOTICE"
             - name: REPMGR_CONNECT_TIMEOUT
@@ -94,12 +94,12 @@ spec:
             - name: REPMGR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
+                  name: postgres-ha-test-secrets
                   key: repmgr-password
             - name: REPMGR_DATABASE
               value: "repmgr"
           ports:
-            - name: postgresql
+            - name: postgres-ha-test
               containerPort: 5432
               protocol: TCP
           livenessProbe:
@@ -133,7 +133,7 @@ spec:
       volumes:
         - name: hooks-scripts
           configMap:
-            name: postgres-configmap
+            name: postgres-ha-test-configmap
             defaultMode: 0755
   volumeClaimTemplates:
     - metadata:

@@ -24,13 +24,13 @@ spec:
             - name: BITNAMI_DEBUG
               value: "false"
             - name: PGPOOL_BACKEND_NODES
-              value: 0:postgres-sts-0.postgres-headless-svc:5432,1:postgres-sts-1.postgres-headless-svc:5432,2:postgres-sts-2.postgres-headless-svc:5432
+              value: 0:postgres-ha-test-0.postgres-ha-test-headless-svc:5432,1:postgres-ha-test-1.postgres-ha-test-headless-svc:5432,2:postgres-ha-test-2.postgres-ha-test-headless-svc:5432
             - name: PGPOOL_SR_CHECK_USER
               value: "repmgr"
             - name: PGPOOL_SR_CHECK_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
+                  name: postgres-ha-test-secrets
                   key: repmgr-password
             - name: PGPOOL_SR_CHECK_DATABASE
               value: "postgres"
@@ -41,7 +41,7 @@ spec:
             - name: PGPOOL_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
+                  name: postgres-ha-test-secrets
                   key: postgresql-password
             - name: PGPOOL_ADMIN_USERNAME
               value: "admin"
@@ -63,7 +63,7 @@ spec:
             - name: PGPOOL_ENABLE_TLS
               value: "no"
           ports:
-            - name: postgresql
+            - name: postgres-ha-test
               containerPort: 5432
               protocol: TCP
           livenessProbe:

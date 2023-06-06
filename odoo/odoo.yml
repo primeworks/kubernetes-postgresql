@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: odoo-postgres
+    app: odoo-ha-test
     tier: frontend
     cattle.io/creator: norman
     workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
-  name: odoo-postgres
+  name: odoo-ha-test
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -40,11 +40,11 @@ spec:
       containers:
       - env:
         - name: HOST
-          value: postgres-sts
+          value: postgres-ha-test
         - name: PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
+                  name: postgres-ha-test-secrets
                   key: postgresql-password
         - name: USER
           value: postgres
@@ -70,7 +70,7 @@ spec:
         tty: true
         ports:
             - containerPort: 8069
-              name: odoo-postgres
+              name: odoo-ha-test
               protocol: TCP
         volumeMounts:
         # Edit the volume to match the existing mountPaths in the cluster
