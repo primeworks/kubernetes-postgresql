@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pgpool-ha-test-deployment-ha-test
+  name: pgpool-deployment-ha-test
 spec:
   replicas: 1
   selector:
