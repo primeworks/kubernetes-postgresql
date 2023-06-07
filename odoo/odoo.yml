@@ -87,5 +87,5 @@ spec:
       # Edit the volume to match the existing pv in the cluster
       - name: data
         persistentVolumeClaim:
-          claimName: tbv-odoo-staging
+          claimName: od-ha-test
 
