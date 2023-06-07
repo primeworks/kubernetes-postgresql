@@ -11,4 +11,4 @@ spec:
     targetPort: postgresql
     protocol: TCP 
   selector:
-    app: postgres
+    app: pg-ha-test
