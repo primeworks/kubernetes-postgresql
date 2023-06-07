@@ -1,116 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "15"
-  creationTimestamp: "2023-06-07T01:33:24Z"
-  generation: 27
-  labels:
-    workload.user.cattle.io/workloadselector: apps.deployment-default-od-ha
-  managedFields:
-  - apiVersion: apps/v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:metadata:
-        f:labels:
-          .: {}
-          f:workload.user.cattle.io/workloadselector: {}
-      f:spec:
-        f:progressDeadlineSeconds: {}
-        f:replicas: {}
-        f:revisionHistoryLimit: {}
-        f:selector: {}
-        f:strategy:
-          f:rollingUpdate:
-            .: {}
-            f:maxSurge: {}
-            f:maxUnavailable: {}
-          f:type: {}
-        f:template:
-          f:metadata:
-            f:labels:
-              .: {}
-              f:workload.user.cattle.io/workloadselector: {}
-          f:spec:
-            f:affinity: {}
-            f:containers:
-              k:{"name":"container-0"}:
-                .: {}
-                f:env:
-                  .: {}
-                  k:{"name":"ALLOW_EMPTY_PASSWORD"}:
-                    .: {}
-                    f:name: {}
-                    f:value: {}
-                  k:{"name":"ODOO_DATABASE_ADMIN_PASSWORD"}:
-                    .: {}
-                    f:name: {}
-                    f:value: {}
-                  k:{"name":"ODOO_DATABASE_HOST"}:
-                    .: {}
-                    f:name: {}
-                    f:value: {}
-                  k:{"name":"ODOO_DATABASE_PORT_NUMBER"}:
-                    .: {}
-                    f:name: {}
-                    f:value: {}
-                f:image: {}
-                f:imagePullPolicy: {}
-                f:name: {}
-                f:resources:
-                  .: {}
-                  f:requests:
-                    .: {}
-                    f:cpu: {}
-                    f:memory: {}
-                f:terminationMessagePath: {}
-                f:terminationMessagePolicy: {}
-            f:dnsPolicy: {}
-            f:restartPolicy: {}
-            f:schedulerName: {}
-            f:securityContext: {}
-            f:terminationGracePeriodSeconds: {}
-    manager: agent
-    operation: Update
-    time: "2023-06-07T03:13:12Z"
-  - apiVersion: apps/v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:metadata:
-        f:annotations:
-          .: {}
-          f:deployment.kubernetes.io/revision: {}
-      f:status:
-        f:conditions:
-          .: {}
-          k:{"type":"Available"}:
-            .: {}
-            f:lastTransitionTime: {}
-            f:lastUpdateTime: {}
-            f:message: {}
-            f:reason: {}
-            f:status: {}
-            f:type: {}
-          k:{"type":"Progressing"}:
-            .: {}
-            f:lastTransitionTime: {}
-            f:lastUpdateTime: {}
-            f:message: {}
-            f:reason: {}
-            f:status: {}
-            f:type: {}
-        f:observedGeneration: {}
-        f:replicas: {}
-        f:unavailableReplicas: {}
-        f:updatedReplicas: {}
-    manager: kube-controller-manager
-    operation: Update
-    subresource: status
-    time: "2023-06-07T04:12:33Z"
-  name: od-ha-test
-  namespace: default
-  resourceVersion: "80998548"
-  uid: baa34c14-47c4-42b3-9cca-a290d3e2cdd3
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -162,8 +51,6 @@ status:
     reason: NewReplicaSetAvailable
     status: "True"
     type: Progressing
-  - lastTransitionTime: "2023-06-07T04:12:33Z"
-    lastUpdateTime: "2023-06-07T04:12:33Z"
     message: Deployment does not have minimum availability.
     reason: MinimumReplicasUnavailable
     status: "False"
