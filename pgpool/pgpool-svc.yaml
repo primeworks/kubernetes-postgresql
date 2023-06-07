@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pgpool-ha-test-svc-ha-test
+  name: pgpool-ha-val-svc
 spec:
   type: ClusterIP
   sessionAffinity: None
   ports:
-    - name: pg-ha-test
+    - name: pg-ha-val
       port: 5432
       targetPort: postgresql
       protocol: TCP
       nodePort: null
   selector:
-    app: pgpool-ha-test
+    app: pgpool-ha-val

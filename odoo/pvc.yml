@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: od-ha-test
+  name: od-ha-val
   labels:
-    app: od-ha-test
+    app: od-ha-val
 spec:
   accessModes:
     - ReadWriteMany

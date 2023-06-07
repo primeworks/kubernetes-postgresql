@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pgpool-deployment-ha-test
+  name: pgpool-ha-val-deployment
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      app: pgpool-ha-test
+      app: pgpool-ha-val
   template:
     metadata:
       labels: 
-        app: pgpool-ha-test
+        app: pgpool-ha-val
     spec:          
       securityContext:
         fsGroup: 1001
       containers:
-        - name: pgpool-ha-test
+        - name: pgpool-ha-val
           image: docker.io/bitnami/pgpool:4.2.3-debian-10-r38
           imagePullPolicy: "IfNotPresent"
           securityContext:
@@ -24,13 +24,13 @@ spec:
             - name: BITNAMI_DEBUG
               value: "false"
             - name: PGPOOL_BACKEND_NODES
-              value: 0:pg-ha-test-0.pg-ha-test-headless-svc:5432,1:pg-ha-test-1.pg-ha-test-headless-svc:5432,2:pg-ha-test-2.pg-ha-test-headless-svc:5432
+              value: 0:pg-ha-val-0.pg-ha-val-headless-svc:5432,1:pg-ha-val-1.pg-ha-val-headless-svc:5432,2:pg-ha-val-2.pg-ha-val-headless-svc:5432
             - name: PGPOOL_SR_CHECK_USER
               value: "repmgr"
             - name: PGPOOL_SR_CHECK_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-ha-test-secrets
+                  name: pg-ha-val-secrets
                   key: repmgr-password
             - name: PGPOOL_SR_CHECK_DATABASE
               value: "postgres"
@@ -41,14 +41,14 @@ spec:
             - name: PGPOOL_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-ha-test-secrets
+                  name: pg-ha-val-secrets
                   key: postgresql-password
             - name: PGPOOL_ADMIN_USERNAME
               value: "admin"
             - name: PGPOOL_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pgpool-ha-test-secrets-ha-test
+                  name: pgpool-ha-val-secrets
                   key: admin-password
             - name: PGPOOL_ENABLE_LOAD_BALANCING
               value: "yes"
@@ -63,7 +63,7 @@ spec:
             - name: PGPOOL_ENABLE_TLS
               value: "no"
           ports:
-            - name: pg-ha-test
+            - name: pg-ha-val
               containerPort: 5432
               protocol: TCP
           livenessProbe:

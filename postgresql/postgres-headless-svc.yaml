@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pg-ha-test-headless-svc
+  name: pg-ha-val-headless-svc
 spec:
   type: ClusterIP
   clusterIP: None
   ports:
-  - name: pg-ha-test
+  - name: pg-ha-val
     port: 5432
     targetPort: postgresql
     protocol: TCP 
   selector:
-    app: pg-ha-test
+    app: pg-ha-val

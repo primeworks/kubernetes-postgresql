@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: od-ha-jb-2-test
+  name: od-ha-val-jb-2
 spec:
   ttlSecondsAfterFinished: 20
   template:
@@ -14,7 +14,7 @@ spec:
         args:
         - "-w"
         - "-h"
-        - pg-ha-test-headless-svc
+        - pg-ha-val-headless-svc
         - "username"
         - odoo
         - "-s"
@@ -24,6 +24,6 @@ spec:
         - name: PGPASSWORD
           valueFrom:
                 secretKeyRef:
-                  name: pg-ha-test-secrets
+                  name: pg-ha-val-secrets
                   key: postgresql-password
       restartPolicy: Never

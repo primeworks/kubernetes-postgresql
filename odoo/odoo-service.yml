@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: od-ha-test
+  name: od-ha-val
 spec:
   selector:
-    workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
+    workload.user.cattle.io/workloadselector: deployment-default-od-ha-val
   ports:
     - protocol: TCP
-      targetPort: od-ha-test
+      targetPort: od-ha-val
       port: 8069
-      name: od-ha-test
+      name: od-ha-val

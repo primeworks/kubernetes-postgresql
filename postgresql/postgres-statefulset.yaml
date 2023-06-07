@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: pg-ha-test
+  name: pg-ha-val
 spec:
-  serviceName: pg-ha-test-headless-svc
+  serviceName: pg-ha-val-headless-svc
   replicas: 3
   selector:
     matchLabels:
-      app: pg-ha-test
+      app: pg-ha-val
   template:
     metadata:
       labels:
-        app: pg-ha-test
+        app: pg-ha-val
     spec:
       securityContext:
         fsGroup: 1001
       containers:
-        - name: pg-ha-test
+        - name: pg-ha-val
           lifecycle:
             preStop:
               exec:
@@ -40,7 +40,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-ha-test-secrets
+                  name: pg-ha-val-secrets
                   key: postgresql-password
             - name: POSTGRES_DB
               value: "postgres"
@@ -74,13 +74,13 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: REPMGR_PARTNER_NODES
-              value: pg-ha-test-0.pg-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,pg-ha-test-1.pg-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,pg-ha-test-2.pg-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local
+              value: pg-ha-val-0.pg-ha-val-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,pg-ha-val-1.pg-ha-val-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local,pg-ha-val-2.pg-ha-val-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local
             - name: REPMGR_PRIMARY_HOST
-              value: "pg-ha-test-0.pg-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+              value: "pg-ha-val-0.pg-ha-val-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
             - name: REPMGR_NODE_NAME
               value: "$(MY_POD_NAME)"
             - name: REPMGR_NODE_NETWORK_NAME
-              value: "$(MY_POD_NAME).pg-ha-test-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
+              value: "$(MY_POD_NAME).pg-ha-val-headless-svc.$(REPMGR_NAMESPACE).svc.cluster.local"
             - name: REPMGR_LOG_LEVEL
               value: "NOTICE"
             - name: REPMGR_CONNECT_TIMEOUT
@@ -94,7 +94,7 @@ spec:
             - name: REPMGR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-ha-test-secrets
+                  name: pg-ha-val-secrets
                   key: repmgr-password
             - name: REPMGR_DATABASE
               value: "repmgr"
@@ -103,7 +103,7 @@ spec:
             - name: POSTGRESQL_PASSWORD
               value: "odoo"
           ports:
-            - name: pg-ha-test
+            - name: pg-ha-val
               containerPort: 5432
               protocol: TCP
           livenessProbe:
@@ -137,7 +137,7 @@ spec:
       volumes:
         - name: hooks-scripts
           configMap:
-            name: pg-ha-test-configmap
+            name: pg-ha-val-configmap
             defaultMode: 0755
   volumeClaimTemplates:
     - metadata:
