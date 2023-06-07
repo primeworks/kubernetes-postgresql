@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: od-ha-jb-1-test
+  name: od-ha-jb-2-test
 spec:
   ttlSecondsAfterFinished: 20
   template:
@@ -10,12 +10,16 @@ spec:
       - name: postgres
         image: bitnami/postgresql:11.5.0
         command:
-        - createdb
+        - createuser
         args:
         - "-h"
         - pg-ha-test-headless-svc
         - "-U"
         - postgres
+        - "-s"
+        - "-r"
+        - odoo
+        - "username"
         - odoo
         env:
         - name: PGPASSWORD
