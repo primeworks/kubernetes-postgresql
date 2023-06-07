@@ -98,6 +98,10 @@ spec:
                   key: repmgr-password
             - name: REPMGR_DATABASE
               value: "repmgr"
+            - name: POSTGRESQL_USERNAME
+              value: "odoo"
+            - name: POSTGRESQL_PASSWORD
+              value: "odoo"
           ports:
             - name: pg-ha-test
               containerPort: 5432

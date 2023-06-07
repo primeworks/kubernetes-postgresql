@@ -12,14 +12,15 @@ spec:
         command:
         - createuser
         args:
+        - "-w"
         - "-h"
         - pg-ha-test-headless-svc
-        - "-U"
-        - postgres
         - "username"
         - odoo
         - "-s"
         env:
+        - name: PGUSERNAME
+          value: postgres
         - name: PGPASSWORD
           valueFrom:
                 secretKeyRef:
