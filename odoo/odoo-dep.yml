@@ -14,22 +14,13 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/instance: od-ha-test
-      app.kubernetes.io/name: odoo
+      app.kubernetes.io/name: od-ha-test
   strategy:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 25%
     type: RollingUpdate
   template:
-    metadata:
-      annotations:
-        cattle.io/timestamp: "2023-05-25T11:09:59Z"
-      creationTimestamp: null
-      labels:
-        app.kubernetes.io/instance: od-ha-test
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: odoo
-        helm.sh/chart: odoo-23.2.4
     spec:
       containers:
       - env:
