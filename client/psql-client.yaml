@@ -10,25 +10,3 @@ spec:
       env:
       - name: ALLOW_EMPTY_PASSWORD
         value: "yes"
-      - name: POSTGRESQL_CLIENT_DATABASE_HOST
-        value: postgres-headless-svc
-      - name: POSTGRESQL_CLIENT_DATABASE_PORT_NUMBER
-        value: "5432"
-      - name: POSTGRESQL_CLIENT_POSTGRES_USER
-        value: postgres
-      - name: POSTGRESQL_CLIENT_POSTGRES_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            key: postgresql-password
-            name: postgres-secrets
-            optional: false
-      - name: POSTGRESQL_CLIENT_CREATE_DATABASE_NAMES
-        value: bitnami_odoo
-      - name: POSTGRESQL_CLIENT_CREATE_DATABASE_USER
-        value: bn_odoo
-      - name: POSTGRESQL_CLIENT_CREATE_DATABASE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            key: postgresql-password
-            name: postgres-secrets
-            optional: false
