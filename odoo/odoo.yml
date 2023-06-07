@@ -40,7 +40,7 @@ spec:
       containers:
       - env:
         - name: HOST
-          value: postgres-headless-svc
+          value: pg-ha-test-headless-svc
         - name: PASSWORD
           value: odoo
         - name: USER
