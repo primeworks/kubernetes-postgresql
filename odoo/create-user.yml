@@ -16,11 +16,9 @@ spec:
         - pg-ha-test-headless-svc
         - "-U"
         - postgres
-        - "-s"
-        - "-r"
-        - odoo
         - "username"
         - odoo
+        - "-s"
         env:
         - name: PGPASSWORD
           valueFrom:
