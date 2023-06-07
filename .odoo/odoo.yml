@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: odoo-postgres
+    app: od-ha-test
     tier: frontend
     cattle.io/creator: norman
-    workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
-  name: odoo-postgres
+    workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
+  name: od-ha-test
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
+      workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -26,7 +26,7 @@ spec:
         field.cattle.io/ports: '[[]]'
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: deployment-default-odoo-hhpei
+        workload.user.cattle.io/workloadselector: deployment-default-od-ha-test
     spec:
       affinity:
         nodeAffinity:
@@ -40,17 +40,14 @@ spec:
       containers:
       - env:
         - name: HOST
-          value: postgres-sts
+          value: postgres-headless-svc
         - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: postgresql-password
+          value: odoo
         - name: USER
-          value: postgres
-        image: odoo:13
+          value: odoo
+        image: odoo:16
         imagePullPolicy: IfNotPresent
-        name: odoo-hhpei
+        name: od-ha-test
         resources:
           limits:
             cpu: "1"
@@ -70,14 +67,14 @@ spec:
         tty: true
         ports:
             - containerPort: 8069
-              name: odoo-postgres
+              name: od-ha-test
               protocol: TCP
         volumeMounts:
         # Edit the volume to match the existing mountPaths in the cluster
         - mountPath: /etc/odoo
           name: config
         - mountPath: /var/lib/odoo
-          name: vol-7xe3r
+          name: data
           subPath: odoo16
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -91,6 +88,7 @@ spec:
           optional: true
         name: config
       # Edit the volume to match the existing pv in the cluster
-      - name: vol-7xe3r
+      - name: data
         persistentVolumeClaim:
-          claimName: pvc-96a539dd-e49b-4688-9981-05a66902856f
+          claimName: od-ha-test
+
