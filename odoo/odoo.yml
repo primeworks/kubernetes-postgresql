@@ -45,17 +45,5 @@ spec:
       terminationGracePeriodSeconds: 30
 status:
   conditions:
-  - lastTransitionTime: "2023-06-07T01:33:24Z"
-    lastUpdateTime: "2023-06-07T03:58:23Z"
-    message: ReplicaSet "od-ha-5ff569f678" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-    message: Deployment does not have minimum availability.
-    reason: MinimumReplicasUnavailable
-    status: "False"
-    type: Available
   observedGeneration: 27
   replicas: 1
-  unavailableReplicas: 1
-  updatedReplicas: 1
