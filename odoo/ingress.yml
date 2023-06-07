@@ -3,11 +3,12 @@ kind: Ingress
 metadata:
   name: od-ha-test
   annotations:
+    cert-manager.io/issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-  - host: postgres.webdiscode.com
+  - host: od-ha-test.webdiscode.com
     http:
       paths:
       - path: /
@@ -17,3 +18,7 @@ spec:
             name: od-ha-test
             port:
               number: 8069
+  tls:
+  - hosts:
+    - od-ha-test.webdiscode.com
+    secretName: od-ha-test.webdiscode.com-tls

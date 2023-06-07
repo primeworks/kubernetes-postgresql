@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: od-ha-test
+spec:
+  ttlSecondsAfterFinished: 20
+  template:
+    spec:
+      containers:
+      - name: postgres
+        image: bitnami/postgresql:11.5.0
+        command:
+        - createdb
+        args:
+        - "-h"
+        - pg-ha-test-headless-svc
+        - "-U"
+        - postgres
+        - odoo
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+                secretKeyRef:
+                  name: pg-ha-test-secrets
+                  key: postgresql-password
+      restartPolicy: Never
