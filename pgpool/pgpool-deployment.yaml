@@ -69,7 +69,7 @@ spec:
           livenessProbe:
             exec:
               command:
-                - /opt/bitnami/scripts/pgpool-ha-test/healthcheck.sh
+                - /opt/bitnami/scripts/pgpool/healthcheck.sh
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -80,7 +80,7 @@ spec:
               command:
                 - bash
                 - -ec
-                - PGPASSWORD=${PGPOOL_POSTGRES_PASSWORD} psql -U "postgres" -d "postgres" -h /opt/bitnami/pgpool-ha-test/tmp -tA -c "SELECT 1" >/dev/null
+                - PGPASSWORD=${PGPOOL_POSTGRES_PASSWORD} psql -U "postgres" -d "postgres" -h /opt/bitnami/pgpool/tmp -tA -c "SELECT 1" >/dev/null
             initialDelaySeconds: 5
             periodSeconds: 5
             timeoutSeconds: 5
