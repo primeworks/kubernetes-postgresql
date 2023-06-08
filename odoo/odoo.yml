@@ -41,7 +41,10 @@ spec:
         - name: HOST
           value: pg-ha-test-headless-svc
         - name: PASSWORD
-          value: odoo
+          valueFrom:
+            secretKeyRef:
+              name: pg-ha-test-secrets
+              key: postgresql-password
         - name: USER
           value: odoo
         image: odoo:16
