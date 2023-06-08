@@ -36,7 +36,7 @@ spec:
             - name: PGDATA
               value: "/bitnami/postgresql/data"
             - name: POSTGRES_USER
-              value: "postgres"
+              value: "odoo"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
