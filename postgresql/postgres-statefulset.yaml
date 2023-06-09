@@ -36,7 +36,7 @@ spec:
             - name: PGDATA
               value: "/bitnami/postgresql/data"
             - name: POSTGRES_USER
-              value: "odoo"
+              value: "postgres"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -107,7 +107,7 @@ spec:
               command:
                 - bash
                 - -ec
-                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "odoo" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
+                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -118,7 +118,7 @@ spec:
               command:
                 - bash
                 - -ec
-                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "odoo" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
+                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 5

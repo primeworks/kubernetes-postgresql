@@ -37,7 +37,7 @@ spec:
             - name: PGPOOL_ENABLE_LDAP
               value: "no"
             - name: PGPOOL_POSTGRES_USERNAME
-              value: "odoo"
+              value: "postgres"
             - name: PGPOOL_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -80,7 +80,7 @@ spec:
               command:
                 - bash
                 - -ec
-                - PGPASSWORD=${PGPOOL_POSTGRES_PASSWORD} psql -U "odoo" -d "postgres" -h /opt/bitnami/pgpool/tmp -tA -c "SELECT 1" >/dev/null
+                - PGPASSWORD=${PGPOOL_POSTGRES_PASSWORD} psql -U "postgres" -d "postgres" -h /opt/bitnami/pgpool/tmp -tA -c "SELECT 1" >/dev/null
             initialDelaySeconds: 5
             periodSeconds: 5
             timeoutSeconds: 5
