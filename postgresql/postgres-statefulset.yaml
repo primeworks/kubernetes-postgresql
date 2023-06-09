@@ -38,7 +38,10 @@ spec:
             - name: POSTGRES_USER
               value: "odoo"
             - name: POSTGRES_PASSWORD
-              value: "odoo"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgresql-password
             - name: POSTGRES_DB
               value: "postgres"
             - name: POSTGRESQL_LOG_HOSTNAME
@@ -104,7 +107,7 @@ spec:
               command:
                 - bash
                 - -ec
-                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
+                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "odoo" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -115,7 +118,7 @@ spec:
               command:
                 - bash
                 - -ec
-                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
+                - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "odoo" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 5
