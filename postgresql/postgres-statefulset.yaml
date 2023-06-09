@@ -38,10 +38,7 @@ spec:
             - name: POSTGRES_USER
               value: "odoo"
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: postgresql-password
+              value: "odoo"
             - name: POSTGRES_DB
               value: "postgres"
             - name: POSTGRESQL_LOG_HOSTNAME
