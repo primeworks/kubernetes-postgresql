@@ -11,4 +11,4 @@ spec:
       protocol: TCP
       nodePort: 32000
   selector:
-    app: postgres
+    app: nginx
